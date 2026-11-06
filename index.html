@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FitOS | مدیریت باشگاه</title>
+<style>
+:root{--bg:#07090a;--bg2:#0d1210;--cd:#111816;--tx:#eafaf1;--mu:#8aa095;--bd:#1f2b26;--ac:#22e57b;--ac2:#0fb361;--ok:#22e57b;--wn:#f5b942;--er:#ff5a5f;--glow:0 0 0 1px rgba(34,229,123,.12),0 10px 30px -12px rgba(34,229,123,.28);--sh:0 8px 24px rgba(0,0,0,.45);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+:root[data-theme="light"]{--bg:#f2f7f4;--bg2:#e6efe9;--cd:#fff;--tx:#0c1a13;--mu:#5b6f64;--bd:#d5e2da;--sh:0 4px 14px rgba(0,0,0,.08);--glow:0 4px 18px -8px rgba(15,179,97,.35);color-scheme:light}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body.auth nav,body.auth header{display:none}
+body{margin:0;background:radial-gradient(900px 420px at 85% -10%,rgba(34,229,123,.13),transparent 60%),radial-gradient(700px 380px at -10% 110%,rgba(15,179,97,.10),transparent 60%),var(--bg);background-attachment:fixed;color:var(--tx);font:15px/1.7 Vazirmatn,Tahoma,system-ui,sans-serif;padding-bottom:84px;-webkit-tap-highlight-color:transparent}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 4px;max-width:1080px;margin:auto}
+header b{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--ac);text-shadow:0 0 18px rgba(34,229,123,.55)}header span{color:var(--mu);font-size:12px}
+main{max-width:1080px;margin:auto;padding:8px 16px}
+h2{font-size:18px;margin:14px 0 8px}h3{font-size:15px;color:var(--ac)}
+a{color:var(--ac)}
+.cd{background:linear-gradient(160deg,var(--cd),var(--bg2));border:1px solid var(--bd);border-radius:20px;padding:16px;margin:12px 0;box-shadow:var(--sh)}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.st{background:linear-gradient(160deg,var(--cd),var(--bg2));border:1px solid var(--bd);border-radius:18px;padding:14px;box-shadow:var(--glow)}
+.st small{color:var(--mu)}.st b{display:block;font-size:22px;color:var(--ac)}
+.rw{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.rw:last-child{border:0}.rw>div{min-width:0}.mu{color:var(--mu);font-size:13px}
+.bt{font:inherit;font-weight:700;border:0;border-radius:14px;padding:10px 18px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#04120a;cursor:pointer;box-shadow:0 6px 22px -6px rgba(34,229,123,.65);transition:transform .16s ease,filter .16s ease,box-shadow .16s ease}
+.bt:hover{filter:brightness(1.08);box-shadow:0 8px 28px -6px rgba(34,229,123,.8)}.bt:active{transform:scale(.97)}
+.bt.s{background:transparent;color:var(--tx);border:1px solid var(--bd);box-shadow:none}.bt.s:hover{border-color:var(--ac);color:var(--ac)}
+.bt.d{background:linear-gradient(135deg,#ff6b6f,#e0393e);color:#fff;box-shadow:0 6px 20px -8px rgba(255,90,95,.7)}.bt.x{padding:6px 12px;font-size:13px;border-radius:11px}
+.bt:disabled{opacity:.5}
+input,select,textarea{font:inherit;width:100%;padding:12px 14px;margin:4px 0;border-radius:13px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);outline:0;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(34,229,123,.18)}
+label{display:block;font-size:13px;color:var(--mu);margin-top:6px}
+.pl{display:inline-block;border-radius:99px;padding:1px 11px;font-size:12px;font-weight:700;background:var(--bd);color:var(--tx)}
+.pl.active,.pl.paid,.pl.approved,.pl.sent{background:rgba(34,229,123,.14);color:var(--ok)}
+.pl.pending,.pl.upcoming,.pl.not_configured{background:rgba(245,185,66,.14);color:var(--wn)}
+.pl.expired,.pl.cancelled,.pl.void,.pl.archived,.pl.rejected,.pl.failed{background:rgba(255,90,95,.14);color:var(--er)}
+.ac{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.bar{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:8px}
+.bar div{flex:1;text-align:center;font-size:11px;color:var(--mu);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.bar i{display:block;background:linear-gradient(180deg,var(--ac),var(--ac2));border-radius:7px 7px 0 0;min-height:3px;margin-bottom:4px;box-shadow:0 0 14px rgba(34,229,123,.4)}
+nav{position:fixed;inset:auto 0 0 0;display:flex;background:rgba(10,15,13,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:5;overflow-x:auto}
+:root[data-theme="light"] nav{background:rgba(255,255,255,.9)}
+nav a{flex:1 0 auto;min-width:52px;text-align:center;font-size:11px;color:var(--mu);text-decoration:none;padding:4px 6px}
+nav a i{display:block;font-style:normal;font-size:19px;transition:transform .2s}nav a.on{color:var(--ac);font-weight:800}nav a.on i{transform:translateY(-2px);text-shadow:0 0 14px var(--ac)}
+.cd,.st{animation:rise .32s ease both}@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+dialog{border:1px solid var(--bd);border-radius:22px;padding:0;width:min(460px,94vw);background:var(--cd);color:var(--tx);max-height:88vh;box-shadow:var(--glow),0 30px 80px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.mb{padding:18px;max-height:88vh;overflow:auto}
+#toast{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:20;background:var(--ac);color:#04120a;font-weight:700;padding:9px 18px;border-radius:99px;font-size:14px;display:none;max-width:90vw;box-shadow:0 8px 30px rgba(34,229,123,.5)}
+#toast.er{background:var(--er);color:#fff}
+.sw{display:inline-block;width:30px;height:30px;border-radius:50%;border:3px solid transparent;margin:3px;cursor:pointer}
+.sw.on{border-color:var(--tx)}
+.nt{background:rgba(245,185,66,.12);color:var(--wn);padding:9px 13px;border-radius:12px;font-size:13px}
+.hero{text-align:center;padding:6px 0 2px}.hero .logo{font-size:38px;font-weight:900;color:var(--ac);text-shadow:0 0 28px rgba(34,229,123,.7);letter-spacing:1px}
+.hero p{color:var(--mu);margin:2px 0 10px}.badge{display:inline-block;margin:4px 0;padding:3px 12px;border-radius:99px;background:rgba(34,229,123,.12);color:var(--ac);font-size:12px;font-weight:700;border:1px solid rgba(34,229,123,.3)}
+.rcpt{max-width:100%;max-height:70vh;border-radius:12px;border:1px solid var(--bd)}
+@media (min-width:760px){.g{grid-template-columns:repeat(4,1fr)}body{padding-bottom:90px}}
+@media (max-width:380px){.bt{padding:9px 12px}.g{gap:8px}}
+</style>
+</head>
+<body>
+<header><div><b>FitOS</b><br><span id="gn"></span></div><button class="bt s x" data-a="tt" aria-label="تغییر تم">◐ تم</button></header>
+<main id="app"></main>
+<nav id="nav"></nav>
+<dialog id="m"></dialog>
+<div id="toast"></div>
+<script>
+'use strict';
+const $=(s,e=document)=>e.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const loc=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const today=()=>loc(new Date());
+const addD=(s,n)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return loc(d)};
+const DF=new Intl.DateTimeFormat('fa-IR-u-ca-persian-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'});
+const TF=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit'});
+const MF=new Intl.DateTimeFormat('fa-IR-u-ca-persian-nu-latn',{year:'numeric',month:'long'});
+const NF=new Intl.NumberFormat('en-US');
+const dt=v=>new Date(String(v).length==10?v+'T00:00:00':v);
+const fd=v=>v?DF.format(dt(v)):'—';
+const ft=v=>v?TF.format(dt(v)):'—';
+const fm=n=>NF.format(Math.round(n*10))+' ریال';
+const fmIrr=n=>NF.format(Math.round(n))+' ریال';
+const nowTs=()=>{const d=new Date();return loc(d)+'T'+d.toTimeString().slice(0,8)};
+const left=e=>Math.round((dt(e)-dt(today()))/864e5);
+
+let S,ME=null,ver=0,tmr,pushing=false,again=false,ui={q:'',fs:'active',ms:'all',mo:''};
+const emptyState=n=>({n:100,gym:{name:n||'My Gym',theme:'dark',accent:'#22e57b'},plans:[{id:1,name:'ماهانه',days:30,price:900000,on:1},{id:2,name:'سه‌ماهه',days:90,price:2400000,on:1},{id:3,name:'سالانه',days:365,price:8000000,on:1}],members:[],ms:[],pay:[],att:[]});
+const api=async(p,o={})=>{const r=await fetch(p,{credentials:'same-origin',headers:o.body?{'Content-Type':'application/json'}:{},...o});const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error(j.error||'خطا'),{status:r.status});return j};
+async function pull(){const r=await api('/api/state');ver=r.version;S=r.state||emptyState(localStorage.getItem('fitos_gn'))}
+async function push(){if(pushing){again=true;return}pushing=true;try{do{again=false;const r=await api('/api/state',{method:'PUT',body:JSON.stringify({state:S,version:ver})});ver=r.version}while(again)}catch(e){if(e.status==409){toast('داده در دستگاه دیگری تغییر کرد؛ بارگذاری مجدد',1);await pull();render()}else if(e.status==401)boot();else toast('ذخیره‌سازی ناموفق: '+e.message,1)}pushing=false}
+const save=()=>{clearTimeout(tmr);tmr=setTimeout(push,250)};
+const id=()=>++S.n;
+
+const mem=i=>S.members.find(m=>m.id==i)||{name:'؟',no:''};
+const plan=i=>S.plans.find(p=>p.id==i)||{name:'؟'};
+const st=x=>x.status!='paid'?x.status:x.end<today()?'expired':x.start>today()?'upcoming':'active';
+const LB={active:'فعال',upcoming:'شروع نشده',expired:'منقضی',pending:'در انتظار پرداخت',cancelled:'لغو شده',paid:'پرداخت‌شده',void:'باطل',archived:'بایگانی'};
+const pill=s=>`<span class="pl ${s}">${LB[s]||s}</span>`;
+const validMs=mid=>S.ms.find(x=>x.mid==mid&&st(x)=='active');
+const memState=mid=>{const l=S.ms.filter(x=>x.mid==mid&&x.status!='cancelled').sort((a,b)=>b.end.localeCompare(a.end))[0];return l?st(l):'none'};
+const mk=d=>MF.format(dt(d));
+const months=()=>{const k=[];for(let i=0;i<220&&k.length<6;i++){const v=MF.format(new Date(Date.now()-i*864e5));if(!k.includes(v))k.push(v)}return k.reverse()};
+const rev=k=>S.pay.filter(p=>p.status=='paid'&&MF.format(dt(p.date))==k).reduce((a,p)=>a+p.amt,0);
+
+/* ---------- UI helpers ---------- */
+const m=$('#m');let gwRes=null;
+const modal=h=>{m.innerHTML='<div class="mb">'+h+'</div>';if(!m.open)m.showModal()};
+const closeM=()=>{if(m.open)m.close()};
+m.addEventListener('close',()=>{if(gwRes){gwRes({ok:false});gwRes=null}});
+m.addEventListener('click',e=>{if(e.target===m)closeM()});
+let tt;const toast=(t,er)=>{const e=$('#toast');e.textContent=t;e.className=er?'er':'';e.style.display='block';clearTimeout(tt);tt=setTimeout(()=>e.style.display='none',2600)};
+const ask=(t,a,i)=>modal(`<p>${t}</p><div class="ac"><button class="bt d" data-a="${a}" data-i="${i}">تأیید</button><button class="bt s" data-a="cl">انصراف</button></div>`);
+function apply(){const r=document.documentElement;S.gym.theme=='auto'?r.removeAttribute('data-theme'):r.setAttribute('data-theme',S.gym.theme);r.style.setProperty('--ac',S.gym.accent==='#6d4aff'?'#22e57b':S.gym.accent);$('#gn').textContent=S.gym.name}
+
+/* ---------- Payment gateway (فقط این بخش فردا به درگاه واقعی وصل می‌شود) ----------
+   امروز: درگاه شبیه‌سازی‌شده. فردا: جایگزینی با
+   POST /api/gym/memberships/:id/pay-online  → redirect به paymentUrl → callback → verify */
+const Gateway={pay:async()=>{throw new Error('روش پرداخت انتخاب‌شده قابل انجام نیست.')}};
+
+/* ---------- Real gateway (server side) ---------- */
+async function realPay(x){try{S.pp=S.pp||{};S.pp['ORD'+x.id]=x.id;clearTimeout(tmr);await push();
+  const r=await api('/api/pay/start',{method:'POST',body:JSON.stringify({orderId:'ORD'+x.id,amountIrr:Math.round(x.price*10),description:`${mem(x.mid).name} - ${plan(x.pid).name}`})});
+  location.href=r.paymentUrl}catch(e){toast(e.message,1)}}
+async function payReturn(){const p=new URLSearchParams(location.search);if(!p.has('pay'))return;const o=p.get('order');history.replaceState(null,'',location.pathname);
+  if(p.get('pay')!='ok')return toast('پرداخت ناموفق بود یا لغو شد',1);
+  try{const r=await api('/api/pay/status?order='+encodeURIComponent(o));const x=S.ms.find(v=>S.pp&&S.pp[o]==v.id);
+    if(r.status=='verified'&&x&&x.status=='pending'){x.status='paid';S.pay.push({id:id(),mid:x.mid,msid:x.id,amt:x.price,method:'آنلاین',ref:r.ref||'',date:nowTs(),status:'paid'});delete S.pp[o];save();toast('پرداخت تأیید شد و عضویت فعال شد');render()}}catch(e){toast(e.message,1)}}
+
+/* ---------- Domain actions ---------- */
+async function doPay(msid,method){
+  const x=S.ms.find(v=>v.id==msid);if(!x||x.status!='pending')return;   // idempotent
+  let ref='';
+  if(method=='آنلاین'&&ME.features.gateway)return realPay(x);
+  if(method=='آنلاین'){const r=await Gateway.pay({amount:x.price,order:'ORD'+x.id,desc:`${mem(x.mid).name} · ${plan(x.pid).name}`});if(!r.ok){toast('پرداخت انجام نشد',1);return render()}ref=r.ref}
+  x.status='paid';S.pay.push({id:id(),mid:x.mid,msid:x.id,amt:x.price,method,ref,date:nowTs(),status:'paid'});
+  save();closeM();toast('پرداخت ثبت و عضویت فعال شد');render();}
+const payBox=msid=>{const x=S.ms.find(v=>v.id==msid);modal(`<h2>پرداخت عضویت</h2><p>${esc(mem(x.mid).name)} · ${esc(plan(x.pid).name)}<br><span class="mu">${fd(x.start)} تا ${fd(x.end)}</span></p><p><b>${fm(x.price)}</b></p>
+<div class="ac">${(ME.features.gateway?['آنلاین','نقدی','کارت‌خوان','کارت‌به‌کارت']:['نقدی','کارت‌خوان','کارت‌به‌کارت']).map(k=>`<button class="bt${k=='آنلاین'?'':' s'}" data-a="pay" data-i="${x.id}" data-k="${k}">${k=='آنلاین'?'پرداخت آنلاین':k}</button>`).join('')}</div>
+<div class="ac"><button class="bt s x" data-a="cl">پرداخت بعداً</button></div>`)};
+const sellBox=(mid,pid)=>modal(`<h2>ثبت عضویت</h2><form data-f="sell"><label>عضو</label><select name="mid">${S.members.filter(v=>v.status=='active').map(v=>`<option value="${v.id}"${v.id==mid?' selected':''}>${esc(v.name)} · ${v.no}</option>`).join('')}</select>
+<label>پلن</label><select name="pid">${S.plans.filter(p=>p.on).map(p=>`<option value="${p.id}"${p.id==pid?' selected':''}>${esc(p.name)} · ${fm(p.price)}</option>`).join('')}</select>
+<div class="ac"><button class="bt">ادامه به پرداخت</button><button type="button" class="bt s" data-a="cl">انصراف</button></div></form>`);
+const memberBox=i=>{const v=i?mem(i):{};modal(`<h2>${i?'ویرایش عضو':'عضو جدید'}</h2><form data-f="member"><input type="hidden" name="id" value="${i||''}"><label>نام و نام خانوادگی</label><input name="name" required minlength="2" value="${esc(v.name)}"><label>تلفن</label><input name="phone" inputmode="tel" value="${esc(v.phone)}"><label>یادداشت</label><textarea name="notes" rows="2">${esc(v.notes)}</textarea><div class="ac"><button class="bt">ذخیره</button><button type="button" class="bt s" data-a="cl">انصراف</button></div></form>`)};
+const planBox=i=>{const p=i?plan(i):{};modal(`<h2>${i?'ویرایش پلن':'پلن جدید'}</h2><form data-f="plan"><input type="hidden" name="id" value="${i||''}"><label>نام پلن</label><input name="name" required minlength="2" value="${esc(p.name)}"><label>مدت (روز)</label><input name="days" type="number" min="1" required value="${p.days||30}"><label>قیمت (ریال)</label><input name="price" type="number" min="10000" step="10" required value="${p.price?Math.round(p.price*10):''}"><div class="ac"><button class="bt">ذخیره</button><button type="button" class="bt s" data-a="cl">انصراف</button></div></form>`)};
+function detail(i){const v=mem(i),ms=S.ms.filter(x=>x.mid==i).sort((a,b)=>b.start.localeCompare(a.start)),ps=S.pay.filter(p=>p.mid==i).sort((a,b)=>b.date.localeCompare(a.date));
+  modal(`<h2>${esc(v.name)} <span class="mu">#${v.no}</span></h2><p class="mu">${esc(v.phone||'—')} · عضو از ${fd(v.created)} ${v.status=='archived'?pill('archived'):''}</p>${v.notes?`<p>${esc(v.notes)}</p>`:''}
+<div class="ac"><button class="bt x" data-a="sell" data-i="${i}">ثبت عضویت</button><button class="bt s x" data-a="cin" data-i="${i}">ثبت ورود</button><button class="bt s x" data-a="em" data-i="${i}">ویرایش</button><button class="bt s x" data-a="${v.status=='active'?'arq':'res'}" data-i="${i}">${v.status=='active'?'بایگانی':'بازیابی'}</button></div>
+<h2>عضویت‌ها</h2>${ms.map(x=>`<div class="rw"><div>${esc(plan(x.pid).name)}<div class="mu">${fd(x.start)} تا ${fd(x.end)}</div></div>${pill(st(x))}</div>`).join('')||'<p class="mu">ندارد.</p>'}
+<h2>پرداخت‌ها</h2>${ps.map(p=>`<div class="rw"><div>${fm(p.amt)}<div class="mu">${p.method} · ${fd(p.date)}</div></div>${pill(p.status)}</div>`).join('')||'<p class="mu">ندارد.</p>'}`)}
+
+/* ---------- Pages ---------- */
+const P={
+dash:{h(){const t=today(),ks=months(),cur=ks[ks.length-1],mx=Math.max(1,...ks.map(rev));
+  const exp=S.ms.filter(x=>st(x)=='active'&&left(x.end)<=7).sort((a,b)=>a.end.localeCompare(b.end));
+  return `<h2>خلاصه‌ی امروز</h2><div class="g">
+<div class="st"><small>اعضای فعال</small><b>${NF.format(S.members.filter(v=>v.status=='active').length)}</b></div>
+<div class="st"><small>عضویت‌های فعال</small><b>${NF.format(S.ms.filter(x=>st(x)=='active').length)}</b></div>
+<div class="st"><small>ورود امروز</small><b>${NF.format(S.att.filter(a=>a.in.slice(0,10)==t).length)}</b></div>
+<div class="st"><small>درآمد ${cur.split(' ')[0]}</small><b>${fm(rev(cur))}</b></div></div>
+<div class="ac"><button class="bt" data-a="am">+ عضو جدید</button><button class="bt s" data-a="sell">فروش عضویت</button><button class="bt s" onclick="location.hash='att'">ثبت ورود</button></div>
+<div class="cd"><b>رو به اتمام (۷ روز آینده)</b>${exp.map(x=>`<div class="rw"><div>${esc(mem(x.mid).name)}<div class="mu">${left(x.end)<=0?'امروز':NF.format(left(x.end))+' روز دیگر'} · ${fd(x.end)}</div></div><button class="bt x" data-a="sell" data-i="${x.mid}" data-p="${x.pid}">تمدید</button></div>`).join('')||'<p class="mu">موردی نیست.</p>'}</div>
+<div class="cd"><b>درآمد ۶ ماه اخیر</b><div class="bar">${ks.map(k=>`<div><i style="height:${Math.round(rev(k)/mx*90)}%"></i>${k.split(' ')[0]}</div>`).join('')}</div></div>`}},
+
+members:{h(){return `<h2>اعضا</h2><input placeholder="جستجوی نام، شماره یا تلفن…" data-q value="${esc(ui.q)}"><div class="g"><select data-fs><option value="active"${ui.fs=='active'?' selected':''}>فعال</option><option value="archived"${ui.fs=='archived'?' selected':''}>بایگانی‌شده</option><option value="all"${ui.fs=='all'?' selected':''}>همه</option></select><button class="bt" data-a="am">+ عضو جدید</button></div><div class="cd" id="list">${this.l()}</div>`},
+ l(){const q=ui.q.trim(),r=S.members.filter(v=>(ui.fs=='all'||v.status==ui.fs)&&(!q||(v.name+v.no+v.phone).includes(q)));
+  return r.map(v=>{const s=memState(v.id);return `<div class="rw"><div><b>${esc(v.name)}</b> <span class="mu">#${v.no}</span><div class="mu">${esc(v.phone||'—')}</div></div><div>${s=='none'?'<span class="mu">بدون عضویت</span>':pill(s)}<div class="ac"><button class="bt s x" data-a="det" data-i="${v.id}">جزئیات</button>${v.status=='active'?`<button class="bt x" data-a="sell" data-i="${v.id}">عضویت</button>`:''}</div></div></div>`}).join('')||'<p class="mu">عضوی پیدا نشد.</p>'}},
+
+plans:{h(){const f=ui.ms,r=S.ms.filter(x=>f=='all'||st(x)==f).sort((a,b)=>b.start.localeCompare(a.start));
+  return `<h2>پلن‌ها</h2><div class="cd">${S.plans.map(p=>`<div class="rw"><div><b>${esc(p.name)}</b> ${p.on?'':'<span class="pl cancelled">غیرفعال</span>'}<div class="mu">${NF.format(p.days)} روز · ${fm(p.price)}</div></div><div class="ac"><button class="bt s x" data-a="ep" data-i="${p.id}">ویرایش</button><button class="bt s x" data-a="tp" data-i="${p.id}">${p.on?'غیرفعال':'فعال'}</button></div></div>`).join('')}<div class="ac"><button class="bt" data-a="ap">+ پلن جدید</button></div></div>
+<h2>عضویت‌ها</h2><div class="g"><select data-ms>${[['all','همه'],['active','فعال'],['pending','در انتظار پرداخت'],['expired','منقضی'],['cancelled','لغو شده']].map(([k,l])=>`<option value="${k}"${f==k?' selected':''}>${l}</option>`).join('')}</select><button class="bt" data-a="sell">+ فروش عضویت</button></div>
+<div class="cd">${r.map(x=>`<div class="rw"><div><b>${esc(mem(x.mid).name)}</b><div class="mu">${esc(plan(x.pid).name)} · ${fd(x.start)} تا ${fd(x.end)} · ${fm(x.price)}</div></div><div>${pill(st(x))}<div class="ac">${x.status=='pending'?`<button class="bt x" data-a="pb" data-i="${x.id}">پرداخت</button><button class="bt s x" data-a="cm" data-i="${x.id}">لغو</button>`:x.status=='paid'?`<button class="bt s x" data-a="sell" data-i="${x.mid}" data-p="${x.pid}">تمدید</button>`:''}</div></div></div>`).join('')||'<p class="mu">موردی نیست.</p>'}</div>`}},
+
+att:{h(){return `<h2>حضور و غیاب</h2><input placeholder="جستجوی عضو برای ثبت ورود…" data-q value="${esc(ui.q)}"><div class="cd" id="list">${this.l()}</div>`},
+ l(){const q=ui.q.trim(),t=today();
+  const hits=q?S.members.filter(v=>v.status=='active'&&(v.name+v.no+v.phone).includes(q)).slice(0,6):[];
+  const vs=S.att.filter(a=>a.in.slice(0,10)==t).sort((a,b)=>b.in.localeCompare(a.in));
+  return (hits.length?hits.map(v=>`<div class="rw"><div>${esc(v.name)} <span class="mu">#${v.no}</span></div><button class="bt x" data-a="cin" data-i="${v.id}">ثبت ورود</button></div>`).join('')+'<hr>':'')+
+  `<b>امروز (${NF.format(vs.length)} ورود)</b>`+(vs.map(a=>`<div class="rw"><div>${esc(mem(a.mid).name)}<div class="mu">ورود ${ft(a.in)}${a.out?' · خروج '+ft(a.out):''}</div></div>${a.out?pill('paid').replace('پرداخت‌شده','انجام شد'):`<button class="bt s x" data-a="cout" data-i="${a.id}">ثبت خروج</button>`}</div>`).join('')||'<p class="mu">ورودی ثبت نشده.</p>')}},
+
+fin:{h(){const ks=months();if(!ks.includes(ui.mo))ui.mo=ks[ks.length-1];
+  const ps=S.pay.filter(p=>MF.format(dt(p.date))==ui.mo).sort((a,b)=>b.date.localeCompare(a.date)),ok=ps.filter(p=>p.status=='paid'),by={};
+  ok.forEach(p=>by[p.method]=(by[p.method]||0)+p.amt);
+  return `<h2>مالی</h2><select data-mo>${ks.map(k=>`<option${k==ui.mo?' selected':''}>${k}</option>`).join('')}</select>
+<div class="g"><div class="st"><small>درآمد ماه</small><b>${fm(ok.reduce((a,p)=>a+p.amt,0))}</b></div><div class="st"><small>تعداد پرداخت</small><b>${NF.format(ok.length)}</b></div></div>
+<div class="cd"><b>به تفکیک روش</b>${Object.entries(by).map(([k,v])=>`<div class="rw"><span>${k}</span><b>${fm(v)}</b></div>`).join('')||'<p class="mu">پرداختی نیست.</p>'}</div>
+<div class="cd"><b>پرداخت‌ها</b>${ps.map(p=>`<div class="rw"><div>${esc(mem(p.mid).name)}<div class="mu">${p.method} · ${fd(p.date)} ${ft(p.date)}${p.ref?' · '+esc(p.ref):''}</div></div><div><b>${fm(p.amt)}</b> ${pill(p.status)}${p.status=='paid'?`<div class="ac"><button class="bt d x" data-a="vp" data-i="${p.id}">ابطال</button></div>`:''}</div></div>`).join('')||'<p class="mu">موردی نیست.</p>'}</div>`}},
+
+buffet:{h(){return `<h2>مدیریت بوفه</h2><div class="cd"><form data-f="buffetitem"><b>افزودن کالا</b><label>نام کالا</label><input name="name" required minlength=2 maxlength=100><div class="g"><div><label>قیمت (ریال)</label><input name="priceIrr" type="number" min=0 required></div><div><label>موجودی</label><input name="stock" type="number" min=0 step=0.01 value=0 required></div></div><div class="g"><div><label>دسته‌بندی</label><input name="category"></div><div><label>واحد</label><input name="unit" value="عدد"></div></div><button class="bt">ثبت کالا</button></form></div><div id="buffetbox" class="cd">در حال دریافت کالاها…</div><div class="cd"><b>آخرین فروش‌ها</b><div id="buffetsales">در حال دریافت…</div></div>`}},
+bill:{h(){return `<h2>اشتراک FitOS</h2><div id="billbox" class="cd">در حال دریافت اطلاعات اشتراک از سرور…</div>`}},
+admin:{h(){return `<h2>مدیریت پلتفرم</h2><div id="adminbox" class="cd">در حال دریافت اطلاعات مدیریتی…</div>`}},
+set:{h(){const g=S.gym;return `<h2>تنظیمات</h2>
+<div class="cd"><form data-f="gym"><label>نام باشگاه</label><input name="name" required value="${esc(g.name)}"><div class="ac"><button class="bt">ذخیره</button></div></form></div>
+<div class="cd"><b>ظاهر</b><div class="ac">${[['auto','خودکار'],['light','روشن'],['dark','تیره']].map(([k,l])=>`<button class="bt${g.theme==k?'':' s'} x" data-a="th" data-i="${k}">${l}</button>`).join('')}</div>
+<div>${['#22e57b','#10b981','#84cc16','#06b6d4','#f59e0b','#e11d48'].map(c=>`<span class="sw${g.accent==c?' on':''}" style="background:${c}" data-a="ca" data-i="${c}"></span>`).join('')}</div></div>
+<div class="cd"><b>پروفایل شخصی</b><form data-f="profile"><label>نام نمایشی</label><input name="displayName" maxlength="80" value="${esc(ME.profile?.displayName||'')}"><label>بیوگرافی</label><textarea name="bio" rows="3" maxlength="500">${esc(ME.profile?.bio||'')}</textarea><label>شناسه تلگرام (بدون @)</label><input name="telegramUsername" dir="ltr" maxlength="32" value="${esc(ME.profile?.telegramUsername||'')}"><label>عکس پروفایل</label><input name="avatar" type="file" accept="image/png,image/jpeg,image/webp"><div class="ac"><button class="bt">ذخیره پروفایل</button></div></form>${ME.profile?.avatarData?`<img src="${ME.profile.avatarData}" alt="پروفایل" style="width:76px;height:76px;object-fit:cover;border-radius:50%;margin-top:10px">`:''}</div><div class="cd"><b>حساب کاربری</b><div class="rw"><span class="mu">ایمیل</span><span dir="ltr">${esc(ME.email)}</span></div><div class="rw"><span class="mu">موبایل</span><span dir="ltr">${ME.phone?esc(ME.phone):'—'}</span></div><div class="ac"><button class="bt s x" data-a="ph">${ME.phone?'تغییر شماره':'افزودن شماره موبایل'}</button><button class="bt d x" data-a="lo">خروج</button></div></div>
+<div class="cd"><b>سرویس‌های متصل</b>${ME.features.gateway?'<div class="rw"><span>درگاه پرداخت زرین‌پال</span><span class="pl active">متصل</span></div>':''}${ME.features.otp?'<div class="rw"><span>تأیید پیامکی</span><span class="pl active">متصل</span></div>':''}${(!ME.features.gateway&&!ME.features.otp)?'<p class="mu">مدیریت اصلی با حساب و داده‌های باشگاه فعال است.</p>':''}</div>
+<div class="cd"><b>داده‌ها</b><div class="ac"><button class="bt s x" data-a="bk">پشتیبان‌گیری</button><button class="bt s x" data-a="rs">بازیابی</button><button class="bt d x" data-a="rd">پاک‌کردن همه‌ی داده‌ها</button></div></div>`}}};
+
+/* ---------- Actions ---------- */
+const A={
+ cl:closeM, buffetdelete:async d=>{if(!confirm('این کالا از منو حذف شود؟'))return;try{await api('/api/buffet/items',{method:'DELETE',body:JSON.stringify({id:+d.i})});loadBuffet()}catch(e){toast(e.message,1)}}, buffetsell:d=>modal(`<h2>ثبت فروش ${esc(d.n)}</h2><form data-f="buffetsale"><input type="hidden" name="itemId" value="${+d.i}"><label>تعداد</label><input name="quantity" type="number" min="0.01" step="0.01" value="1" required><div class="ac"><button class="bt">ثبت فروش</button></div></form>`), tt(){const o=['auto','light','dark'];S.gym.theme=o[(o.indexOf(S.gym.theme)+1)%3];save();apply();toast('تم: '+{auto:'خودکار',light:'روشن',dark:'تیره'}[S.gym.theme]);render()},
+ th:d=>{S.gym.theme=d.i;save();apply();render()}, ca:d=>{S.gym.accent=d.i;save();apply();render()},
+ am:()=>memberBox(), em:d=>memberBox(d.i), det:d=>detail(d.i),
+ arq:d=>{mem(d.i).status='archived';save();closeM();toast('بایگانی شد');render()}, res:d=>{mem(d.i).status='active';save();closeM();toast('بازیابی شد');render()},
+ sell:d=>sellBox(d.i,d.p), pb:d=>payBox(d.i), pay:d=>doPay(d.i,d.k),
+ cm:d=>ask('این عضویت لغو شود؟','cmok',d.i), cmok:d=>{S.ms.find(x=>x.id==d.i).status='cancelled';save();closeM();render()},
+ ap:()=>planBox(), ep:d=>planBox(d.i), tp:d=>{const p=plan(d.i);p.on=p.on?0:1;save();render()},
+ vp:d=>ask('پرداخت باطل شود؟ عضویت مربوط لغو می‌شود.','vpok',d.i),
+ vpok:d=>{const p=S.pay.find(x=>x.id==d.i);p.status='void';const x=S.ms.find(v=>v.id==p.msid);if(x)x.status='cancelled';save();closeM();render()},
+ cin:d=>{const i=+d.i;if(S.att.some(a=>a.mid==i&&!a.out))return toast('این عضو قبلاً وارد شده',1);
+   if(!validMs(i)){toast('عضویت فعال ندارد',1);return sellBox(i)}
+   S.att.push({id:id(),mid:i,in:nowTs(),out:null});save();closeM();toast('ورود ثبت شد');ui.q='';location.hash='att';render()},
+ cout:d=>{S.att.find(a=>a.id==d.i).out=nowTs();save();render()},
+ bk:()=>modal(`<h2>پشتیبان‌گیری</h2><p class="mu">متن زیر را کپی و نگه دارید.</p><textarea rows="8" readonly onclick="this.select()">${esc(JSON.stringify(S))}</textarea>`),
+ rs:()=>modal(`<h2>بازیابی</h2><form data-f="restore"><textarea name="j" rows="8" required placeholder="متن پشتیبان را اینجا بچسبانید"></textarea><div class="ac"><button class="bt">بازیابی</button></div></form>`),
+ lo:async()=>{await api('/api/auth/logout',{method:'POST'}).catch(()=>{});ME=null;S=null;authView('login')},
+ ph:()=>modal(`<h2>تأیید شماره موبایل</h2><form data-f="phreq"><label>شماره موبایل</label><input name="phone" inputmode="tel" dir="ltr" placeholder="09123456789" required><div class="ac"><button class="bt">ارسال کد</button><button type="button" class="bt s" data-a="cl">انصراف</button></div></form>`),
+ rd:()=>ask('همه‌ی داده‌های باشگاه پاک شود؟ این کار قابل بازگشت نیست.','rdok'), rdok:()=>{S=emptyState(S.gym.name);save();apply();closeM();render()}};
+const F={
+ sell(d){const mid=+d.mid,pid=+d.pid,p=plan(pid);if(!mid||!p.id)return toast('عضو و پلن را انتخاب کنید',1);
+   const last=S.ms.filter(x=>x.mid==mid&&x.status!='cancelled'&&x.end>=today()).map(x=>x.end).sort().pop();
+   const s=last?addD(last,1):today(),x={id:id(),mid,pid,start:s,end:addD(s,p.days-1),price:p.price,status:'pending'};
+   S.ms.push(x);save();render();payBox(x.id)},
+ member(d){const n=d.name.trim();if(n.length<2)return;
+   if(d.id){Object.assign(mem(+d.id),{name:n,phone:d.phone.trim(),notes:d.notes.trim()})}
+   else S.members.push({id:id(),no:String(Math.max(1000,...S.members.map(v=>+v.no||0))+1),name:n,phone:d.phone.trim(),status:'active',notes:d.notes.trim(),created:today()});
+   save();closeM();toast('ذخیره شد');render()},
+ plan(d){const o={name:d.name.trim(),days:+d.days,price:Math.round(+d.price/10)};if(d.id)Object.assign(plan(+d.id),o);else S.plans.push({id:id(),on:1,...o});save();closeM();toast('ذخیره شد');render()},
+ gym(d){S.gym.name=d.name.trim()||S.gym.name;save();apply();toast('ذخیره شد')},
+ async phreq(d){try{await api('/api/auth/phone/request',{method:'POST',body:JSON.stringify({phone:d.phone})});modal(`<h2>کد تأیید</h2><p class="mu">کد ارسال‌شده به ${esc(d.phone)} را وارد کنید.</p><form data-f="phver"><input name="code" inputmode="numeric" dir="ltr" maxlength="6" required><div class="ac"><button class="bt">تأیید</button></div></form>`)}catch(e){toast(e.message,1)}},
+ async phver(d){try{const r=await api('/api/auth/phone/verify',{method:'POST',body:JSON.stringify({code:d.code})});ME.phone=r.phone;closeM();toast('شماره تأیید شد');render()}catch(e){toast(e.message,1)}},
+ async auth(d){try{if(d.gymName)localStorage.setItem('fitos_gn',d.gymName);await api('/api/auth/'+d.mode,{method:'POST',body:JSON.stringify({email:d.email,password:d.password,gymName:d.gymName,ownerName:d.ownerName})});boot()}catch(e){$('#ae').textContent=e.message}},
+ async buffetitem(d){try{await api('/api/buffet/items',{method:'POST',body:JSON.stringify({name:d.name,priceIrr:Number(d.priceIrr),stock:Number(d.stock),category:d.category,unit:d.unit})});toast('کالا ثبت شد');render()}catch(e){toast(e.message,1)}},
+ async buffetsale(d){try{await api('/api/buffet/sales',{method:'POST',body:JSON.stringify({itemId:Number(d.itemId),quantity:Number(d.quantity)})});closeM();toast('فروش ثبت شد');loadBuffet()}catch(e){toast(e.message,1)}},
+ async manualpay(d){try{await api('/api/saas/manual-payment',{method:'POST',body:JSON.stringify(d)});closeM();toast('درخواست پرداخت ثبت شد؛ پس از بررسی مدیر فعال می‌شود');await loadCommercial('bill')}catch(e){toast(e.message,1)}},
+ async profile(d){try{await api('/api/profile',{method:'PUT',body:JSON.stringify(d)});ME.profile=(await api('/api/profile')).profile;toast('پروفایل ذخیره شد');render()}catch(e){toast(e.message,1)}},
+ restore(d){try{const x=JSON.parse(d.j);if(!x||!Array.isArray(x.members)||!Array.isArray(x.ms))throw 0;S=x;save();apply();closeM();toast('بازیابی شد');render()}catch{toast('متن پشتیبان معتبر نیست',1)}}};
+
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&A[b.dataset.a]){e.preventDefault();A[b.dataset.a](b.dataset)}});
+document.addEventListener('submit',async e=>{const f=e.target.closest('[data-f]');if(!f)return;e.preventDefault();const d=Object.fromEntries(new FormData(f));if(f.dataset.f==='manualpay'||f.dataset.f==='profile'){const file=f.elements.receipt?.files?.[0]||f.elements.avatar?.files?.[0];if(file){if(file.size>2200000){toast('حجم تصویر باید کمتر از 2.2 مگابایت باشد',1);return}const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result));r.onerror=no;r.readAsDataURL(file)});if(f.dataset.f==='manualpay'){d.receiptData=data.split(',')[1];d.receiptMime=file.type}else d.avatarData=data}}F[f.dataset.f](d)});
+document.addEventListener('input',e=>{if(e.target.matches('[data-q]')){ui.q=e.target.value;$('#list').innerHTML=P[cur()].l()}});
+document.addEventListener('change',e=>{const t=e.target;if(t.matches('[data-fs]')){ui.fs=t.value;render()}else if(t.matches('[data-ms]')){ui.ms=t.value;render()}else if(t.matches('[data-mo]')){ui.mo=t.value;render()}});
+
+function authView(mode){document.body.classList.add('auth');const r=mode=='register';
+  $('#app').innerHTML=`<div class="cd" style="margin:6vh auto 0;max-width:440px"><div class="hero"><div class="logo">FitOS</div><p>مدیریت هوشمند باشگاه ورزشی</p>${r?'<span class="badge">۷ روز دوره آزمایشی رایگان</span>':''}</div><h2>${r?'ثبت‌نام':'ورود'}</h2><form data-f="auth"><input type="hidden" name="mode" value="${mode}">
+  ${r?'<label>نام مدیر باشگاه</label><input name="ownerName" required minlength="2" maxlength="100"><label>نام باشگاه</label><input name="gymName" required minlength="2" maxlength="100">':''}<label>ایمیل</label><input name="email" type="email" dir="ltr" required autocomplete="email"><label>رمز عبور ${r?'(حداقل ۱۰ کاراکتر)':''}</label><input name="password" type="password" dir="ltr" required minlength="${r?10:1}" autocomplete="${r?'new-password':'current-password'}">
+  <p id="ae" class="nt" style="background:none;color:var(--er);padding:0"></p><div class="ac"><button class="bt" style="width:100%">${r?'ایجاد حساب':'ورود'}</button></div></form>
+  <p class="mu" style="text-align:center">${r?'حساب دارید؟':'حساب ندارید؟'} <a href="#" data-a="sw" data-i="${r?'login':'register'}" style="color:var(--ac)">${r?'ورود':'ثبت‌نام'}</a></p></div>`}
+A.sw=d=>authView(d.i);
+async function boot(){try{ME=await api('/api/me')}catch(e){if(e.status==401)return authView('login');$('#app').innerHTML='<div class="cd">اتصال به سرور برقرار نشد. صفحه را دوباره بارگذاری کنید.</div>';return}
+  await pull();try{ME.profile=(await api('/api/profile')).profile}catch{}document.body.classList.remove('auth');apply();render();payReturn()}
+const NAV=[['dash','⌂','داشبورد'],['members','♙','اعضا'],['plans','◈','عضویت'],['att','◷','حضور'],['fin','$','مالی'],['buffet','☕','بوفه'],['bill','◇','اشتراک'],['set','⚙','تنظیمات']];
+const cur=()=>{const h=location.hash.slice(1);return P[h]?h:'dash'};
+function render(){if(!S||!ME)return;const c=cur();$('#app').innerHTML=P[c].h();const nav=[...NAV];if(ME.role==='superadmin')nav.splice(nav.length-1,0,['admin','♜','مدیریت']);$('#nav').innerHTML=nav.map(([k,i,l])=>`<a href="#${k}" class="${k==c?'on':''}"><i>${i}</i>${l}</a>`).join('');if(c==='bill'||c==='admin')loadCommercial(c);if(c==='buffet')loadBuffet()}
+async function loadBuffet(){try{const [a,b]=await Promise.all([api('/api/buffet/items'),api('/api/buffet/sales')]);$('#buffetbox').innerHTML=a.items.map(x=>`<div class="rw"><div><b>${esc(x.name)}</b><div class="mu">${fmIrr(x.priceIrr)} · موجودی ${NF.format(x.stock)} ${esc(x.unit)}</div></div><div class="ac"><button class="bt x" data-a="buffetsell" data-i="${x.id}" data-n="${esc(x.name)}">فروش</button><button class="bt d x" data-a="buffetdelete" data-i="${x.id}">حذف</button></div></div>`).join('')||'<p class="mu">هنوز کالایی ثبت نشده است.</p>';$('#buffetsales').innerHTML=b.sales.map(x=>`<div class="rw"><span>${esc(x.itemName)} × ${NF.format(x.quantity)}<div class="mu">${fd(new Date(x.createdAt).toISOString().slice(0,10))}</div></span><b>${fmIrr(x.totalIrr)}</b></div>`).join('')||'<p class="mu">فروشی ثبت نشده است.</p>'}catch(e){$('#buffetbox').textContent=e.message}}
+async function loadCommercial(which){const target=which==='bill'?'#billbox':'#adminbox';try{if(which==='bill'){const [a,b,h]=await Promise.all([api('/api/saas/plans'),api('/api/saas/subscription'),api('/api/saas/purchases')]);const sub=b.subscription;window.FITBANK=a.bank||{};$(target).innerHTML=`<b>وضعیت فعلی</b><div class="rw"><span>${sub?esc(sub.planName):'بدون اشتراک'}</span>${sub?pill(sub.status):pill('expired')}</div><div class="mu">${sub?.endsAt?'اعتبار تا '+fd(new Date(sub.endsAt).toISOString().slice(0,10)):'برای شروع، یکی از پلن‌ها را انتخاب کنید.'}</div><hr><b>پلن‌های قابل خرید</b>${a.plans.filter(x=>x.priceIrr>0).map(x=>`<div class="rw"><div><b>${esc(x.name)}</b><div class="mu">${NF.format(x.durationDays)} روز · ${fmIrr(x.priceIrr)}</div></div><button class="bt x" data-a="chooseplan" data-i="${x.id}" data-p="${x.priceIrr}" data-n="${esc(x.name)}">ثبت پرداخت دستی</button></div>`).join('')}<hr><b>سابقه خرید</b>${h.purchases.map(x=>`<div class="rw"><div><b>${esc(x.planName)}</b><div class="mu" dir="ltr">${esc(x.buyerEmail)}</div><div class="mu">${x.createdAt?fd(new Date(x.createdAt).toISOString().slice(0,10)):''} · ${fmIrr(x.amountIrr)}</div></div>${pill(x.status)}</div>`).join('')||'<p class="mu">سابقه‌ای وجود ندارد.</p>'}<p class="nt">پرداخت دستی پس از بررسی مدیر فعال می‌شود؛ ثبت درخواست به‌تنهایی به معنی پرداخت نیست.</p>`}else{if(ME.role!=='superadmin')throw Error('دسترسی مدیر کل لازم است.');const [a,b]=await Promise.all([api('/api/admin/overview'),api('/api/admin/payments')]);$(target).innerHTML=`<div class="g"><div class="st"><small>حساب‌ها</small><b>${NF.format(a.users)}</b></div><div class="st"><small>باشگاه‌ها</small><b>${NF.format(a.gyms)}</b></div><div class="st"><small>اشتراک فعال</small><b>${NF.format(a.activeSubscriptions)}</b></div><div class="st"><small>پرداخت‌های منتظر</small><b>${NF.format(a.pendingPayments)}</b></div></div><h3>درخواست‌های پرداخت دستی</h3>${b.telegramConfigured?'':'<p class="nt">ارسال تلگرام تنظیم نشده است (TELEGRAM_BOT_TOKEN و TELEGRAM_OWNER_CHAT_ID).</p>'}${b.payments.map(x=>`<div class="rw"><div><b>${esc(x.gymName)}</b> <span class="mu">#${x.id}</span><div class="mu" dir="ltr">${esc(x.email)}</div><div class="mu">${esc(x.planName)} · ${fmIrr(x.amountIrr)} · کد پیگیری: ${esc(x.trackingCode)}</div><div class="mu">تلگرام: <span class="pl ${esc(x.telegramStatus)}">${{sent:'ارسال شد',failed:'ناموفق',not_configured:'تنظیم نشده',pending:'در انتظار'}[x.telegramStatus]||esc(x.telegramStatus)}</span>${x.telegramError?' '+esc(x.telegramError):''}</div>${x.rejectReason?`<div class="mu">دلیل رد: ${esc(x.rejectReason)}</div>`:''}${x.status==='approved'&&x.endsAt?`<div class="mu">اشتراک: ${fd(new Date(x.startsAt).toISOString().slice(0,10))} تا ${fd(new Date(x.endsAt).toISOString().slice(0,10))}</div>`:''}<a href="#" data-a="rcpt" data-i="${x.id}">مشاهده تصویر رسید</a></div><div>${pill(x.status)}<div class="ac">${x.telegramStatus!=='sent'?`<button class="bt s x" data-a="tgretry" data-i="${x.id}">ارسال مجدد تلگرام</button>`:''}${x.status==='pending'?`<button class="bt x" data-a="review" data-i="${x.id}" data-k="yes">تأیید</button><button class="bt d x" data-a="review" data-i="${x.id}" data-k="no">رد</button>`:''}</div></div></div>`).join('')||'<p class="mu">درخواستی ثبت نشده است.</p>'}`} }catch(e){$(target).innerHTML=`<p class="nt">${esc(e.message)}</p><button class="bt s" data-a="${which==='bill'?'billrefresh':'adminrefresh'}">تلاش دوباره</button>`}}
+A.rcpt=d=>modal(`<h2>رسید #${+d.i}</h2><img class="rcpt" src="/api/admin/payments/receipt?id=${+d.i}" alt="receipt"><div class="ac"><button class="bt s" data-a="cm">بستن</button></div>`);
+A.review=async d=>{try{const yes=d.k==='yes';let reason='';if(!yes){reason=(prompt('دلیل رد پرداخت را بنویسید:')||'').trim();if(reason.length<3)return toast('دلیل رد الزامی است',1)}else if(!confirm('پرداخت تأیید و اشتراک فعال شود؟'))return;await api('/api/admin/payments/review',{method:'POST',body:JSON.stringify({paymentId:+d.i,approve:yes,reason})});toast(yes?'پرداخت تأیید و اشتراک فعال شد':'پرداخت رد شد');loadCommercial('admin')}catch(e){toast(e.message,1)}};
+A.tgretry=async d=>{try{const r=await api('/api/admin/payments/telegram-retry',{method:'POST',body:JSON.stringify({paymentId:+d.i})});toast(r.ok?'به تلگرام ارسال شد':'ارسال ناموفق: '+r.telegram,!r.ok);loadCommercial('admin')}catch(e){toast(e.message,1)}};
+A.billrefresh=()=>loadCommercial('bill');A.adminrefresh=()=>loadCommercial('admin');
+A.chooseplan=d=>modal(`<h2>خرید اشتراک ${esc(d.n)}</h2><div class="cd"><b>مبلغ قابل پرداخت: ${fmIrr(+d.p)}</b><p>شماره کارت: <b dir="ltr">${esc(window.FITBANK?.cardNumber||'شماره کارت هنوز توسط مالک تنظیم نشده')}</b></p><p>به نام: ${esc(window.FITBANK?.cardHolder||'')}</p><p class="mu">پس از کارت‌به‌کارت، تصویر رسید و کد پیگیری را ارسال کنید.</p><a href="https://t.me/Ho3einFarhad1" target="_blank" rel="noopener">پشتیبانی تلگرام @Ho3einFarhad1</a></div><form data-f="manualpay"><input type="hidden" name="planId" value="${+d.i}"><label>کد پیگیری بانکی</label><input name="trackingCode" minlength="4" maxlength="100" required><label>تصویر رسید (PNG/JPG/WebP)</label><input name="receipt" type="file" accept="image/png,image/jpeg,image/webp" required><div class="ac"><button class="bt">ارسال برای بررسی Owner</button><button type="button" class="bt s" data-a="cl">انصراف</button></div></form>`);
+
+window.addEventListener('hashchange',()=>{ui.q='';render();window.scrollTo(0,0)});
+boot();
+</script>
+</body>
+</html>

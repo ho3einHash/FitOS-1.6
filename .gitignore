@@ -1,0 +1,24 @@
+.env
+*.db
+*.db-wal
+*.db-shm
+backups/
+
+# FitOS secrets and local data
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+backups/
+node_modules/
+dist/
+.wrangler/
+*.log
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local backups
+*.bak
